@@ -8,3 +8,6 @@ def compute(expression):
     else:
         print('unknown operator!')
         return None
+# Test
+
+# print(compute("32 + 32"))
