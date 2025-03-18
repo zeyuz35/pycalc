@@ -47,5 +47,66 @@ Jupyter's REPL is whack, though its variable watch is really nice for ML/DS work
 it implicitly prints only the LAST thing you output
 so in reality, you still need to call print on everything
 
-## 
+## Arch Linux venv
+Installing python packages is more involved on Arch Linux, so try to do these in this order
+
+1. Install from official repo/AUR, these packages are installed system-wide
+2. If not available via pacman or paru, then install into a custom venv
+
+# --system-site-packages allows the venv to "inherit" global packages, and the venv packages
+to "overwrite" them (tbh this is kind of the default behaviour I expected...)
+virtualenv -p /usr/bin/python3 venv --system-site-packages
+# add this line to your ~/.bashrc, or ~/.zshrc
+source venv/bin/activate
+
+pip install package
+
+## Pytorch specific
+
+Convolution layers surprisingly do not care about the input size of the image
+This explains why they are so widely applicable IRL
+
+## Tensorboard, and managing dependencies
+
+Python 3.13 removed the imghdr library, which is required by tensorboard
+A hotfix is to install standard-imghdr, or python-deadlib from the AUR
+
+For some reason, the arch linux repo of tensorboard when installed is unable to 
+see either of these
+so the solution is to 
+pip install tensorboard
+instead of the Arch version
+
+# accessing venv packages from Jupyter
+
+Create a venv for Jupyter 
+python3 -m ipykernel install --user --name=projectname
+
+Edit VSCODE settings
+Exntensions -> Python 
+Python: venv folders
+and add the relevant folder for venv
+
+Restart VSCODE, then the venv will appear as an available kernel
+
+# outputting directly
+assigning something to _ specifically will directly output the result
+
+# Numpy grievances
+## slicing
+These actually follow MATLAB, and require colons : in the empty dimensions
+
+## simple mathematical operations
+these require import math, then math.sqrt, etc
+Python is also really anal about types
+e.g. if rho is a numpy array, np.float_power(rho[1], 2) is required to square it
+
+# Pandas vs Numpy
+numpy is like base R's arrays, very basic, but also very fast
+Pandas is like base R's dataframes, built on top of numpy, and better for real data analysis
+However, there is more overhead
+
+Both have far less features than their equivalents in R
+e.g. numpy does not support named dimensions
+
 
